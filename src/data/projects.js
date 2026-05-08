@@ -13,7 +13,7 @@ const projects = [
     live: "",
     featured: true,
   },
-  {
+ {
     id: 2,
     title: "Portfolio Website",
     description:
@@ -23,7 +23,7 @@ const projects = [
     image: "/images/projects/portfolio.png",
     tags: ["Next.js", "Tailwind CSS", "Nodemailer", "JavaScript"],
     category: "frontend",
-    github: "",
+    github: "https://github.com/hariii110/portfolio",
     live: "",
     featured: true,
   },
