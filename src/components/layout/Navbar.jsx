@@ -95,10 +95,15 @@ export default function Navbar() {
                   {link.label}
                   {isActive && (
                     <span style={{
-                      position: 'absolute', bottom: 0,
-                      left: '50%', transform: 'translateX(-50%)',
-                      width: '20px', height: '3px', borderRadius: '100px',
+                      position: 'absolute',
+                      bottom: 0,
+                      left: '50%',
+                      transform: 'translateX(-50%)',
+                      width: '20px',
+                      height: '3px',
+                      borderRadius: '100px',
                       background: '#e01f37',
+                      animation: 'navDotGrow 0.3s ease forwards',
                     }} />
                   )}
                 </a>
@@ -167,6 +172,19 @@ export default function Navbar() {
           </a>
         </div>
       )}
+
+      <style>{`
+        @keyframes navDotGrow {
+          from {
+            width: 0;
+            opacity: 0;
+          }
+          to {
+            width: 20px;
+            opacity: 1;
+          }
+        }
+      `}</style>
     </>
   )
 }

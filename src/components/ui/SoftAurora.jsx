@@ -256,9 +256,16 @@ export default function SoftAurora({
 
         window.addEventListener('resize', resize)
 
-        function update(time) {
-          animationFrameId = requestAnimationFrame(update)
-          program.uniforms.uTime.value = time * 0.001
+        let lastTime = 0
+
+function update(time) {
+  animationFrameId = requestAnimationFrame(update)
+
+  // Throttle to 24fps (aurora doesn't need 60fps)
+  if (time - lastTime < 41) return
+  lastTime = time
+
+  program.uniforms.uTime.value = time * 0.001
 
           if (enableMouseInteraction) {
             currentMouse[0] += 0.05 * (targetMouse[0] - currentMouse[0])

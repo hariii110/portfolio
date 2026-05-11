@@ -35,8 +35,8 @@ const personal = {
   },
 social: {
     github:    "https://github.com/hariii110",
-    linkedin:  "https://linkedin.com/in/yourusername",
-    instagram: "https://instagram.com/yourusername",
+    linkedin:  "https://www.linkedin.com/in/hari-narayan-ab32a5321?utm_source=share_via&utm_content=profile&utm_medium=member_android",
+    instagram: "https://instagram.com/1hariiii",
   },
 }
 
