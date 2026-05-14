@@ -11,6 +11,7 @@ const navLinks = [
   { label: 'Projects',   href: '#projects',   icon: '🚀' },
   { label: 'Blog',       href: '#blog',       icon: '📝' },
   { label: 'Game',       href: '#game',       icon: '🎮' },
+  
   { label: 'Contact',    href: '#contact',    icon: '📬' },
 ]
 

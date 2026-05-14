@@ -17,6 +17,7 @@ const Projects    = dynamic(() => import('@/components/sections/Projects'))
 const Learning    = dynamic(() => import('@/components/sections/Learning'))
 const Blog        = dynamic(() => import('@/components/sections/Blog'))
 const Game        = dynamic(() => import('@/components/sections/Game'))
+const Mario = dynamic(() => import('@/components/sections/Mario'))
 const Contact     = dynamic(() => import('@/components/sections/Contact'))
 const Footer      = dynamic(() => import('@/components/layout/Footer'))
 
@@ -46,6 +47,7 @@ export default function MainContent() {
         <section id="learning"><Learning /></section>
         <section id="blog"><Blog /></section>
         <section id="game"><Game /></section>
+        
         <section id="contact"><Contact /></section>
 
         <Footer />
