@@ -63,11 +63,7 @@
   box-sizing: border-box;
 }
 
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 90px;
-  -webkit-overflow-scrolling: touch;
-}
+
 
 body {
   background-color: var(--background);
@@ -519,30 +515,34 @@ a {
   transition: color 0.2s ease, opacity 0.2s ease;
 }
 /* ================================
-   PREVENT ZOOM / PINCH
+   PREVENT ALL ZOOM
 ================================ */
 html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 90px;
   touch-action: manipulation;
   -ms-touch-action: manipulation;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: touch;
 }
 
 body {
   touch-action: manipulation;
   -webkit-text-size-adjust: 100%;
-  -ms-text-size-adjust: 100%;
   overscroll-behavior: none;
-}
-
-
-section#game canvas {
-  touch-action: none;
-  user-select: none;
-  -webkit-user-select: none;
+  overflow-x: hidden;
 }
 
 * {
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
+}
+
+input, select, textarea {
+  font-size: 16px !important;
 }
 /* ================================
    FIX: OVERFLOW
@@ -578,5 +578,12 @@ section#game canvas {
 @media (max-width: 480px) {
   * {
     transition-duration: 0.15s !important;
+  }
+}
+/* Prevent Ctrl+scroll zoom on the page */
+/* Make zoom look less broken */
+@media (min-resolution: 120dpi) {
+  html {
+    zoom: 1;
   }
 }

@@ -1,4 +1,5 @@
 import { Inter } from 'next/font/google'
+import Script from 'next/script'
 import './globals.css'
 
 const inter = Inter({
@@ -13,28 +14,27 @@ export const metadata = {
   },
   description:
     'I am a Full Stack Developer who builds clean, fast and user-friendly web applications.',
-  keywords: [
-    'Full Stack Developer',
-    'MERN Stack Developer',
-    'React Developer',
-    'Node.js Developer',
-    'Hari Narayan',
-  ],
-  authors: [{ name: 'Hari Narayan' }],
-  creator: 'Hari Narayan',
 }
 
 export const viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 1,
+  minimumScale: 1,
   userScalable: false,
+  viewportFit: 'cover',
 }
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={inter.className}>
-      <body>{children}</body>
+      <head>
+        <meta name="HandheldFriendly" content="true" />
+      </head>
+      <body style={{ background: '#011d3a' }}>
+        {children}
+        <Script src="/no-zoom.js" strategy="afterInteractive" />
+      </body>
     </html>
   )
 }
