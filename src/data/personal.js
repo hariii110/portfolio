@@ -5,7 +5,7 @@ const personal = {
   email: "harinarayanxb8@gmail.com",
   phone: "+91 6235036598",
   location: "Kochi, India",
-  resumeUrl: "/resume.pdf",
+  resumeUrl: "/data/resume.pdf",
   avatar: "/images/profile.jpg",
 
   about: {
