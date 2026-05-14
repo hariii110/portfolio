@@ -174,20 +174,42 @@ export default function ProfileRings({ size = 200, shape = 'circle' }) {
         </>
       )}
 
-      {/* Mobile only - simple glow ring */}
-      {isMobile && (
-        <div style={{
-          position: 'absolute',
-          width: `${size + 16}px`,
-          height: `${size + 16}px`,
-          borderRadius: '50%',
-          border: '2px solid rgba(224, 31, 55, 0.15)',
-          top: '50%', left: '50%',
-          transform: 'translate(-50%, -50%)',
-          boxShadow: '0 0 20px rgba(224, 31, 55, 0.08)',
-          pointerEvents: 'none',
-        }} />
-      )}
+      {/* Mobile only - glow rings */}
+{isMobile && (
+  <>
+    <div style={{
+      position: 'absolute',
+      width: `${size + 20}px`,
+      height: `${size + 20}px`,
+      borderRadius: '50%',
+      border: '2px solid rgba(224, 31, 55, 0.15)',
+      top: '50%', left: '50%',
+      transform: 'translate(-50%, -50%)',
+      boxShadow: '0 0 20px rgba(224, 31, 55, 0.08)',
+      pointerEvents: 'none',
+    }} />
+    <div style={{
+      position: 'absolute',
+      width: `${size + 36}px`,
+      height: `${size + 36}px`,
+      borderRadius: '50%',
+      border: '1px solid rgba(26, 74, 122, 0.12)',
+      top: '50%', left: '50%',
+      transform: 'translate(-50%, -50%)',
+      pointerEvents: 'none',
+    }} />
+    <div style={{
+      position: 'absolute',
+      width: `${size + 40}px`,
+      height: `${size + 40}px`,
+      borderRadius: '50%',
+      background: 'radial-gradient(circle, rgba(224,31,55,0.06) 0%, transparent 70%)',
+      top: '50%', left: '50%',
+      transform: 'translate(-50%, -50%)',
+      pointerEvents: 'none',
+    }} />
+  </>
+)}
 
       {/* Profile Image */}
       <div style={{
