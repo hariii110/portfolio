@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const skillLogos = [
   { name: 'HTML', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg' },
@@ -17,9 +17,17 @@ const skillLogos = [
 
 export default function ProfileRings({ size = 200, shape = 'circle' }) {
   const [hovered, setHovered] = useState(-1)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768)
+    const handleResize = () => setIsMobile(window.innerWidth < 768)
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   const orbitR = size * 0.7
-  const containerSize = size + orbitR * 2 + 80
+  const containerSize = isMobile ? size + 20 : size + orbitR * 2 + 80
   const center = containerSize / 2
   const iconSize = 30
   const borderRadius = shape === 'square' ? '20px' : '50%'
@@ -32,533 +40,209 @@ export default function ProfileRings({ size = 200, shape = 'circle' }) {
       position: 'relative',
     }}>
 
-      {/* Orbit ring outer */}
-      <div style={{
-        position: 'absolute',
-        width: `${orbitR * 2 + 30}px`,
-        height: `${orbitR * 2 + 30}px`,
-        borderRadius: '50%',
-        border: '1px solid rgba(224, 31, 55, 0.06)',
-        top: '50%', left: '50%',
-        transform: 'translate(-50%, -50%)',
-        pointerEvents: 'none',
-      }} />
+      {/* Desktop only - orbit rings and icons */}
+      {!isMobile && (
+        <>
+          {/* Orbit ring outer */}
+          <div style={{
+            position: 'absolute',
+            width: `${orbitR * 2 + 30}px`,
+            height: `${orbitR * 2 + 30}px`,
+            borderRadius: '50%',
+            border: '1px solid rgba(224, 31, 55, 0.06)',
+            top: '50%', left: '50%',
+            transform: 'translate(-50%, -50%)',
+            pointerEvents: 'none',
+          }} />
 
-      {/* Orbit ring main */}
-      <div style={{
-        position: 'absolute',
-        width: `${orbitR * 2}px`,
-        height: `${orbitR * 2}px`,
-        borderRadius: '50%',
-        border: '1px dashed rgba(240, 236, 227, 0.08)',
-        top: '50%', left: '50%',
-        transform: 'translate(-50%, -50%)',
-        pointerEvents: 'none',
-      }} />
+          {/* Orbit ring main */}
+          <div style={{
+            position: 'absolute',
+            width: `${orbitR * 2}px`,
+            height: `${orbitR * 2}px`,
+            borderRadius: '50%',
+            border: '1px dashed rgba(240, 236, 227, 0.08)',
+            top: '50%', left: '50%',
+            transform: 'translate(-50%, -50%)',
+            pointerEvents: 'none',
+          }} />
 
-      {/* Orbit ring inner */}
-      <div style={{
-        position: 'absolute',
-        width: `${orbitR * 2 - 30}px`,
-        height: `${orbitR * 2 - 30}px`,
-        borderRadius: '50%',
-        border: '1px solid rgba(26, 74, 122, 0.08)',
-        top: '50%', left: '50%',
-        transform: 'translate(-50%, -50%)',
-        pointerEvents: 'none',
-      }} />
+          {/* Orbit ring inner */}
+          <div style={{
+            position: 'absolute',
+            width: `${orbitR * 2 - 30}px`,
+            height: `${orbitR * 2 - 30}px`,
+            borderRadius: '50%',
+            border: '1px solid rgba(26, 74, 122, 0.08)',
+            top: '50%', left: '50%',
+            transform: 'translate(-50%, -50%)',
+            pointerEvents: 'none',
+          }} />
 
-      {/* Glow behind profile */}
-      <div style={{
-        position: 'absolute',
-        width: `${size + 50}px`,
-        height: `${size + 50}px`,
-        borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(224, 31, 55, 0.08) 0%, rgba(26, 74, 122, 0.06) 40%, transparent 70%)',
-        top: '50%', left: '50%',
-        transform: 'translate(-50%, -50%)',
-        pointerEvents: 'none',
-      }} />
+          {/* Glow */}
+          <div style={{
+            position: 'absolute',
+            width: `${size + 50}px`,
+            height: `${size + 50}px`,
+            borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(224, 31, 55, 0.08) 0%, rgba(26, 74, 122, 0.06) 40%, transparent 70%)',
+            top: '50%', left: '50%',
+            transform: 'translate(-50%, -50%)',
+            pointerEvents: 'none',
+          }} />
 
-      {/* Rotating wrapper - only this rotates */}
-      <div
-        className="orbit-wrapper"
-        style={{
-          position: 'absolute',
-          width: '100%',
-          height: '100%',
-          top: 0, left: 0,
-        }}
-      >
-        {skillLogos.map((skill, i) => {
-          const angle = (360 / total) * i
-          const radian = (angle * Math.PI) / 180
-          const isHov = hovered === i
+          {/* Rotating wrapper */}
+          <div
+            className="orbit-wrapper"
+            style={{
+              position: 'absolute',
+              width: '100%',
+              height: '100%',
+              top: 0, left: 0,
+            }}
+          >
+            {skillLogos.map((skill, i) => {
+              const angle = (360 / total) * i
+              const radian = (angle * Math.PI) / 180
+              const isHov = hovered === i
 
-          // Position on circle
-          const x = center + Math.cos(radian - Math.PI / 2) * orbitR - iconSize / 2
-          const y = center + Math.sin(radian - Math.PI / 2) * orbitR - iconSize / 2
+              const x = center + Math.cos(radian - Math.PI / 2) * orbitR - iconSize / 2
+              const y = center + Math.sin(radian - Math.PI / 2) * orbitR - iconSize / 2
 
-          return (
-            <div
-              key={skill.name}
-              className="orbit-icon"
-              onMouseEnter={() => setHovered(i)}
-              onMouseLeave={() => setHovered(-1)}
-              style={{
-                position: 'absolute',
-                left: `${x}px`,
-                top: `${y}px`,
-                width: `${iconSize}px`,
-                height: `${iconSize}px`,
-                borderRadius: '10px',
-                background: isHov
-                  ? 'rgba(224, 31, 55, 0.15)'
-                  : 'rgba(1, 44, 86, 0.7)',
-                border: isHov
-                  ? '1.5px solid rgba(224, 31, 55, 0.4)'
-                  : '1px solid rgba(10, 61, 110, 0.5)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: 'pointer',
-                transition: 'background 0.3s, border 0.3s, box-shadow 0.3s, transform 0.3s',
-                zIndex: isHov ? 10 : 1,
-                boxShadow: isHov
-                  ? '0 6px 20px rgba(224, 31, 55, 0.2)'
-                  : '0 2px 6px rgba(0, 0, 0, 0.15)',
-                transform: isHov ? 'scale(1.25)' : 'scale(1)',
-              }}
-            >
-              <img
-                src={skill.icon}
-                alt={skill.name}
-                width={isHov ? 20 : 16}
-                height={isHov ? 20 : 16}
-                style={{ objectFit: 'contain', transition: 'all 0.3s' }}
-              />
+              return (
+                <div
+                  key={skill.name}
+                  className="orbit-icon"
+                  onMouseEnter={() => setHovered(i)}
+                  onMouseLeave={() => setHovered(-1)}
+                  style={{
+                    position: 'absolute',
+                    left: `${x}px`,
+                    top: `${y}px`,
+                    width: `${iconSize}px`,
+                    height: `${iconSize}px`,
+                    borderRadius: '10px',
+                    background: isHov
+                      ? 'rgba(224, 31, 55, 0.15)'
+                      : 'rgba(1, 44, 86, 0.7)',
+                    border: isHov
+                      ? '1.5px solid rgba(224, 31, 55, 0.4)'
+                      : '1px solid rgba(10, 61, 110, 0.5)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'pointer',
+                    transition: 'background 0.3s, border 0.3s, box-shadow 0.3s, transform 0.3s',
+                    zIndex: isHov ? 10 : 1,
+                    boxShadow: isHov
+                      ? '0 6px 20px rgba(224, 31, 55, 0.2)'
+                      : '0 2px 6px rgba(0, 0, 0, 0.15)',
+                    transform: isHov ? 'scale(1.25)' : 'scale(1)',
+                  }}
+                >
+                  <img
+                    src={skill.icon}
+                    alt={skill.name}
+                    width={isHov ? 20 : 16}
+                    height={isHov ? 20 : 16}
+                    style={{ objectFit: 'contain', transition: 'all 0.3s' }}
+                  />
 
-              {isHov && (
-                <div style={{
-                  position: 'absolute',
-                  bottom: `${iconSize + 8}px`,
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  padding: '3px 8px',
-                  borderRadius: '6px',
-                  background: 'rgba(1, 29, 58, 0.9)',
-                  border: '1px solid rgba(224, 31, 55, 0.3)',
-                  fontSize: '0.6rem',
-                  fontWeight: 700,
-                  color: '#f0ece3',
-                  whiteSpace: 'nowrap',
-                  zIndex: 20,
-                }}>
-                  {skill.name}
+                  {isHov && (
+                    <div style={{
+                      position: 'absolute',
+                      bottom: `${iconSize + 8}px`,
+                      left: '50%',
+                      transform: 'translateX(-50%)',
+                      padding: '3px 8px',
+                      borderRadius: '6px',
+                      background: 'rgba(1, 29, 58, 0.9)',
+                      border: '1px solid rgba(224, 31, 55, 0.3)',
+                      fontSize: '0.6rem',
+                      fontWeight: 700,
+                      color: '#f0ece3',
+                      whiteSpace: 'nowrap',
+                      zIndex: 20,
+                    }}>
+                      {skill.name}
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-          )
-        })}
+              )
+            })}
+          </div>
+        </>
+      )}
+
+      {/* Mobile only - simple glow ring */}
+      {isMobile && (
+        <div style={{
+          position: 'absolute',
+          width: `${size + 16}px`,
+          height: `${size + 16}px`,
+          borderRadius: '50%',
+          border: '2px solid rgba(224, 31, 55, 0.15)',
+          top: '50%', left: '50%',
+          transform: 'translate(-50%, -50%)',
+          boxShadow: '0 0 20px rgba(224, 31, 55, 0.08)',
+          pointerEvents: 'none',
+        }} />
+      )}
+
+      {/* Profile Image */}
+      <div style={{
+        position: 'absolute',
+        top: '50%', left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: `${size}px`,
+        height: `${size}px`,
+        borderRadius,
+        overflow: 'hidden',
+        border: '3px solid rgba(240, 236, 227, 0.15)',
+        zIndex: 5,
+        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
+        background: 'rgba(1, 44, 86, 0.5)',
+      }}>
+        <img
+          src="/images/profile.jpg"
+          alt="Hari Narayan"
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+          }}
+          onError={(e) => {
+            e.currentTarget.style.display = 'none'
+            e.currentTarget.parentElement.innerHTML = `
+              <div style="
+                width: 100%; height: 100%;
+                display: flex; align-items: center; justify-content: center;
+                background: linear-gradient(135deg, #012c56, #0a3d6e);
+                font-size: 3rem; font-weight: 700; color: #f0ece3;
+              ">HN</div>
+            `
+          }}
+        />
       </div>
 
-      {/* Profile Image - Holographic Glitch Effect */}
-<div style={{
-  position: 'absolute',
-  top: '50%', left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: `${size}px`,
-  height: `${size}px`,
-  borderRadius,
-  zIndex: 5,
-}}>
-  {/* Hologram glow behind */}
-  <div className="holo-glow" style={{
-    position: 'absolute',
-    inset: '-8px',
-    borderRadius,
-    background: 'radial-gradient(circle, rgba(224, 31, 55, 0.15) 0%, rgba(26, 74, 122, 0.1) 50%, transparent 70%)',
-    pointerEvents: 'none',
-  }} />
-
-  {/* Scan line overlay */}
-  <div className="scan-lines" style={{
-    position: 'absolute',
-    inset: 0,
-    borderRadius,
-    overflow: 'hidden',
-    zIndex: 8,
-    pointerEvents: 'none',
-    opacity: 0.15,
-  }}>
-    {Array.from({ length: 30 }).map((_, i) => (
-      <div key={i} style={{
-        position: 'absolute',
-        top: `${i * 3.33}%`,
-        left: 0,
-        right: 0,
-        height: '1px',
-        background: 'rgba(240, 236, 227, 0.3)',
-      }} />
-    ))}
-  </div>
-
-  {/* Main image container */}
-  <div className="holo-image" style={{
-    width: '100%',
-    height: '100%',
-    borderRadius,
-    overflow: 'hidden',
-    border: '2px solid rgba(240, 236, 227, 0.1)',
-    boxShadow: '0 0 20px rgba(224, 31, 55, 0.1), 0 0 40px rgba(26, 74, 122, 0.08)',
-    position: 'relative',
-  }}>
-    {/* Red channel offset */}
-    <img
-      className="glitch-r"
-      src="/images/profile.jpg"
-      alt=""
-      style={{
-        position: 'absolute',
-        inset: 0,
-        width: '100%',
-        height: '100%',
-        objectFit: 'cover',
-        mixBlendMode: 'lighten',
-        opacity: 0,
-        filter: 'grayscale(1) brightness(0.8)',
-      }}
-    />
-
-    {/* Blue channel offset */}
-    <img
-      className="glitch-b"
-      src="/images/profile.jpg"
-      alt=""
-      style={{
-        position: 'absolute',
-        inset: 0,
-        width: '100%',
-        height: '100%',
-        objectFit: 'cover',
-        mixBlendMode: 'lighten',
-        opacity: 0,
-        filter: 'grayscale(1) brightness(0.8)',
-      }}
-    />
-
-    {/* Main image */}
-    <img
-      className="glitch-main"
-      src="/images/profile.jpg"
-      alt="Hari Narayan"
-      style={{
-        width: '100%',
-        height: '100%',
-        objectFit: 'cover',
-        position: 'relative',
-        zIndex: 2,
-      }}
-      onError={(e) => {
-        e.currentTarget.style.display = 'none'
-        e.currentTarget.parentElement.innerHTML = `
-          <div style="
-            width: 100%; height: 100%;
-            display: flex; align-items: center; justify-content: center;
-            background: linear-gradient(135deg, #012c56, #0a3d6e);
-            font-size: 3rem; font-weight: 700; color: #f0ece3;
-          ">HN</div>
-        `
-      }}
-    />
-
-    {/* Holographic overlay */}
-    <div className="holo-overlay" style={{
-      position: 'absolute',
-      inset: 0,
-      zIndex: 3,
-      pointerEvents: 'none',
-    }} />
-
-    {/* Glitch slice lines */}
-    <div className="glitch-slices" style={{
-      position: 'absolute',
-      inset: 0,
-      zIndex: 4,
-      pointerEvents: 'none',
-      overflow: 'hidden',
-    }} />
-  </div>
-
-  {/* Bottom hologram flicker bar */}
-  <div className="holo-bar" style={{
-    position: 'absolute',
-    bottom: '-4px',
-    left: '15%',
-    right: '15%',
-    height: '2px',
-    borderRadius: '100px',
-    background: '#e01f37',
-    zIndex: 9,
-  }} />
-
-  {/* Top hologram flicker bar */}
-  <div className="holo-bar-top" style={{
-    position: 'absolute',
-    top: '-4px',
-    left: '20%',
-    right: '20%',
-    height: '1px',
-    borderRadius: '100px',
-    background: '#1a4a7a',
-    zIndex: 9,
-  }} />
-</div>
-
       <style>{`
-  .orbit-wrapper {
-    animation: orbitSpin 45s linear infinite;
-    transform-origin: center center;
-  }
-  .orbit-icon {
-    animation: counterSpin 45s linear infinite;
-    transform-origin: center center;
-  }
-  @keyframes orbitSpin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-  }
-  @keyframes counterSpin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(-360deg); }
-  }
-
-  /* ================================
-     HOLOGRAPHIC GLITCH EFFECT
-     5 sec visible → 2 sec glitch/disappear → repeat
-  ================================ */
-
-  /* Main image: visible 5s, glitch out 2s */
-  .glitch-main {
-    animation: holoMain 7s ease-in-out infinite;
-  }
-
-  @keyframes holoMain {
-    0% { opacity: 1; filter: none; }
-    65% { opacity: 1; filter: none; }
-    68% { opacity: 0.6; filter: brightness(1.5) contrast(1.3); transform: translate(2px, 0); }
-    70% { opacity: 0.3; filter: brightness(2) contrast(0.5); transform: translate(-3px, 1px); }
-    72% { opacity: 0; transform: translate(0); }
-    74% { opacity: 0; }
-    76% { opacity: 0.1; filter: brightness(2) hue-rotate(90deg); transform: translate(1px, -1px); }
-    78% { opacity: 0; }
-    82% { opacity: 0; }
-    84% { opacity: 0.2; filter: brightness(1.8) contrast(1.5); transform: translate(-2px, 0); }
-    86% { opacity: 0.5; filter: brightness(1.3); transform: translate(1px, 0); }
-    88% { opacity: 0.8; filter: none; transform: translate(0); }
-    92% { opacity: 1; filter: none; }
-    100% { opacity: 1; filter: none; }
-  }
-
-  /* Red channel glitch */
-  .glitch-r {
-    animation: glitchR 7s ease-in-out infinite;
-  }
-
-  @keyframes glitchR {
-    0% { opacity: 0; }
-    65% { opacity: 0; }
-    68% { opacity: 0.5; transform: translate(4px, -1px); filter: grayscale(1) brightness(1) sepia(1) hue-rotate(-30deg) saturate(5); }
-    70% { opacity: 0.7; transform: translate(-3px, 2px); }
-    72% { opacity: 0.3; transform: translate(5px, 0); }
-    74% { opacity: 0; }
-    76% { opacity: 0.4; transform: translate(-4px, 1px); }
-    78% { opacity: 0; }
-    82% { opacity: 0; }
-    84% { opacity: 0.4; transform: translate(3px, -1px); }
-    86% { opacity: 0.2; transform: translate(-1px, 0); }
-    88% { opacity: 0; }
-    100% { opacity: 0; }
-  }
-
-  /* Blue channel glitch */
-  .glitch-b {
-    animation: glitchB 7s ease-in-out infinite;
-  }
-
-  @keyframes glitchB {
-    0% { opacity: 0; }
-    65% { opacity: 0; }
-    68% { opacity: 0.3; transform: translate(-3px, 1px); filter: grayscale(1) brightness(1) sepia(1) hue-rotate(180deg) saturate(5); }
-    70% { opacity: 0.5; transform: translate(4px, -2px); }
-    72% { opacity: 0.4; transform: translate(-5px, 1px); }
-    74% { opacity: 0; }
-    76% { opacity: 0.3; transform: translate(3px, -1px); }
-    78% { opacity: 0; }
-    82% { opacity: 0; }
-    84% { opacity: 0.3; transform: translate(-2px, 1px); }
-    86% { opacity: 0.1; transform: translate(1px, 0); }
-    88% { opacity: 0; }
-    100% { opacity: 0; }
-  }
-
-  /* Holographic color overlay */
-  .holo-overlay {
-    animation: holoColor 7s ease-in-out infinite;
-  }
-
-  @keyframes holoColor {
-    0% { background: transparent; }
-    65% { background: transparent; }
-    68% {
-      background: linear-gradient(
-        45deg,
-        rgba(224, 31, 55, 0.1) 0%,
-        rgba(26, 74, 122, 0.15) 30%,
-        rgba(224, 31, 55, 0.1) 60%,
-        transparent 100%
-      );
-    }
-    72% {
-      background: linear-gradient(
-        135deg,
-        rgba(26, 74, 122, 0.2) 0%,
-        rgba(224, 31, 55, 0.15) 50%,
-        transparent 100%
-      );
-    }
-    78% { background: transparent; }
-    84% {
-      background: linear-gradient(
-        90deg,
-        transparent 0%,
-        rgba(224, 31, 55, 0.1) 50%,
-        transparent 100%
-      );
-    }
-    88% { background: transparent; }
-    100% { background: transparent; }
-  }
-
-  /* Glitch slices */
-  .glitch-slices {
-    animation: glitchSlice 7s ease-in-out infinite;
-  }
-
-  @keyframes glitchSlice {
-    0% { clip-path: none; background: transparent; }
-    65% { clip-path: none; background: transparent; }
-    69% {
-      background: repeating-linear-gradient(
-        0deg,
-        transparent 0px,
-        transparent 3px,
-        rgba(224, 31, 55, 0.08) 3px,
-        rgba(224, 31, 55, 0.08) 4px
-      );
-    }
-    71% {
-      background: repeating-linear-gradient(
-        0deg,
-        transparent 0px,
-        transparent 5px,
-        rgba(26, 74, 122, 0.1) 5px,
-        rgba(26, 74, 122, 0.1) 6px
-      );
-    }
-    73% { background: transparent; }
-    75% {
-      background: repeating-linear-gradient(
-        0deg,
-        transparent 0px,
-        transparent 2px,
-        rgba(240, 236, 227, 0.05) 2px,
-        rgba(240, 236, 227, 0.05) 3px
-      );
-    }
-    78% { background: transparent; }
-    85% {
-      background: repeating-linear-gradient(
-        0deg,
-        transparent 0px,
-        transparent 4px,
-        rgba(224, 31, 55, 0.06) 4px,
-        rgba(224, 31, 55, 0.06) 5px
-      );
-    }
-    88% { background: transparent; }
-    100% { background: transparent; }
-  }
-
-  /* Scan lines pulse */
-  .scan-lines {
-    animation: scanPulse 7s ease-in-out infinite;
-  }
-
-  @keyframes scanPulse {
-    0% { opacity: 0.05; }
-    65% { opacity: 0.05; }
-    68% { opacity: 0.3; }
-    72% { opacity: 0.5; }
-    78% { opacity: 0.1; }
-    84% { opacity: 0.25; }
-    88% { opacity: 0.08; }
-    100% { opacity: 0.05; }
-  }
-
-  /* Hologram glow pulse */
-  .holo-glow {
-    animation: holoGlow 7s ease-in-out infinite;
-  }
-
-  @keyframes holoGlow {
-    0% { opacity: 0.3; }
-    65% { opacity: 0.3; }
-    68% { opacity: 1; }
-    72% { opacity: 0.5; }
-    74% { opacity: 0.2; }
-    78% { opacity: 0.1; }
-    84% { opacity: 0.8; }
-    88% { opacity: 0.4; }
-    100% { opacity: 0.3; }
-  }
-
-  /* Bottom bar flicker */
-  .holo-bar {
-    animation: barFlicker 7s ease-in-out infinite;
-  }
-
-  @keyframes barFlicker {
-    0% { opacity: 0.3; width: 70%; }
-    65% { opacity: 0.3; width: 70%; }
-    68% { opacity: 1; width: 80%; box-shadow: 0 0 10px rgba(224, 31, 55, 0.5); }
-    70% { opacity: 0.1; width: 40%; }
-    72% { opacity: 0; }
-    74% { opacity: 0.8; width: 60%; }
-    76% { opacity: 0; }
-    78% { opacity: 0.5; width: 50%; }
-    82% { opacity: 0; }
-    84% { opacity: 0.6; width: 65%; }
-    88% { opacity: 0.3; width: 70%; }
-    100% { opacity: 0.3; width: 70%; }
-  }
-
-  /* Top bar */
-  .holo-bar-top {
-    animation: barTopFlicker 7s ease-in-out infinite;
-  }
-
-  @keyframes barTopFlicker {
-    0% { opacity: 0.2; }
-    65% { opacity: 0.2; }
-    68% { opacity: 0.8; }
-    72% { opacity: 0; }
-    78% { opacity: 0.5; }
-    84% { opacity: 0.3; }
-    88% { opacity: 0.2; }
-    100% { opacity: 0.2; }
-  }
-`}</style>
+        .orbit-wrapper {
+          animation: orbitSpin 45s linear infinite;
+          transform-origin: center center;
+        }
+        .orbit-icon {
+          animation: counterSpin 45s linear infinite;
+          transform-origin: center center;
+        }
+        @keyframes orbitSpin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        @keyframes counterSpin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(-360deg); }
+        }
+      `}</style>
     </div>
   )
 }

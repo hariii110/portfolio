@@ -9,10 +9,6 @@ const PrismBackground = dynamic(
   () => import('@/components/ui/PrismBackground'),
   { ssr: false }
 )
-const ClientCursor = dynamic(
-  () => import('@/components/ui/ClientCursor'),
-  { ssr: false }
-)
 const About       = dynamic(() => import('@/components/sections/About'))
 const Skills      = dynamic(() => import('@/components/sections/Skills'))
 const SkillsRadar = dynamic(() => import('@/components/sections/SkillsRadar'))
@@ -33,7 +29,6 @@ export default function MainContent() {
       }}
     >
       <PrismBackground />
-      <ClientCursor />
       <BackToTop />
 
       <main style={{

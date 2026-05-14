@@ -555,3 +555,28 @@ section#game canvas {
   word-wrap: break-word;
   overflow-wrap: break-word;
 }
+/* ================================
+   MOBILE PERFORMANCE
+================================ */
+@media (max-width: 768px) {
+  * {
+    animation-duration: 0.3s !important;
+  }
+
+  .card,
+  .card-cream,
+  .card-red,
+  .card-navy {
+    backdrop-filter: none !important;
+  }
+
+  section {
+    transform: none !important;
+  }
+}
+
+@media (max-width: 480px) {
+  * {
+    transition-duration: 0.15s !important;
+  }
+}
