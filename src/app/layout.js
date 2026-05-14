@@ -24,12 +24,17 @@ export const metadata = {
   creator: 'Hari Narayan',
 }
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+}
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={inter.className}>
-      <body>
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   )
 }

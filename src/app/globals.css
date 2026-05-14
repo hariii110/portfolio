@@ -1,3 +1,4 @@
+
 @import "tailwindcss";
 
 /* ================================
@@ -25,13 +26,11 @@
    COLORS - NAVY THEME
 ================================ */
 :root {
-  /* Brand */
   --cream: #f0ece3;
   --navy: #012c56;
   --navy-bg: #011d3a;
   --red: #e01f37;
 
-  /* Extended */
   --cream-dark: #e4ddd2;
   --cream-light: #f8f5f0;
   --navy-light: #0a3d6e;
@@ -41,7 +40,6 @@
   --red-dark: #b81828;
   --red-muted: #e8505f;
 
-  /* UI - Navy Background Theme */
   --background: #011d3a;
   --foreground: #f0ece3;
   --primary: #e01f37;
@@ -67,7 +65,7 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 100px;
+  scroll-padding-top: 90px;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -79,6 +77,9 @@ body {
   overflow-x: hidden;
   line-height: 1.8;
   font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 /* ================================
@@ -202,7 +203,7 @@ p, span, a, li, label, input, textarea, button {
 }
 
 /* ================================
-   CARDS - GLASS ON NAVY
+   CARDS
 ================================ */
 .card {
   background: rgba(1, 44, 86, 0.5);
@@ -211,6 +212,7 @@ p, span, a, li, label, input, textarea, button {
   padding: 32px;
   backdrop-filter: blur(10px);
   transition: all 0.35s ease;
+  contain: layout style;
 }
 
 .card:hover {
@@ -219,7 +221,6 @@ p, span, a, li, label, input, textarea, button {
   border-color: var(--red);
 }
 
-/* Cream card on navy */
 .card-cream {
   background: var(--cream);
   color: var(--navy);
@@ -227,23 +228,17 @@ p, span, a, li, label, input, textarea, button {
   border-radius: 20px;
   padding: 32px;
   transition: all 0.35s ease;
+  contain: layout style;
 }
 
-.card-cream h3,
-.card-cream h4 {
-  color: var(--navy);
-}
-
-.card-cream p {
-  color: var(--navy-muted);
-}
+.card-cream h3, .card-cream h4 { color: var(--navy); }
+.card-cream p { color: var(--navy-muted); }
 
 .card-cream:hover {
   transform: translateY(-6px);
   box-shadow: 0 20px 50px -12px rgba(240, 236, 227, 0.2);
 }
 
-/* Red card */
 .card-red {
   background: var(--red);
   color: #ffffff;
@@ -251,23 +246,17 @@ p, span, a, li, label, input, textarea, button {
   border-radius: 20px;
   padding: 32px;
   transition: all 0.35s ease;
+  contain: layout style;
 }
 
-.card-red h3,
-.card-red h4 {
-  color: #ffffff;
-}
-
-.card-red p {
-  color: var(--red-light);
-}
+.card-red h3, .card-red h4 { color: #ffffff; }
+.card-red p { color: var(--red-light); }
 
 .card-red:hover {
   transform: translateY(-6px);
   box-shadow: 0 20px 50px -12px rgba(224, 31, 55, 0.4);
 }
 
-/* Navy solid card */
 .card-navy {
   background: var(--navy);
   color: var(--cream);
@@ -275,16 +264,11 @@ p, span, a, li, label, input, textarea, button {
   border-radius: 20px;
   padding: 32px;
   transition: all 0.35s ease;
+  contain: layout style;
 }
 
-.card-navy h3,
-.card-navy h4 {
-  color: var(--cream);
-}
-
-.card-navy p {
-  color: var(--muted);
-}
+.card-navy h3, .card-navy h4 { color: var(--cream); }
+.card-navy p { color: var(--muted); }
 
 .card-navy:hover {
   transform: translateY(-6px);
@@ -383,6 +367,14 @@ p, span, a, li, label, input, textarea, button {
   transform: translateY(-3px);
 }
 
+.btn-primary:active,
+.btn-accent:active,
+.btn-outline:active,
+.btn-ghost:active {
+  transform: scale(0.97) !important;
+  transition: transform 0.1s ease;
+}
+
 /* ================================
    BADGES
 ================================ */
@@ -423,8 +415,15 @@ p, span, a, li, label, input, textarea, button {
   color: var(--navy);
 }
 
+.badge:hover,
+.badge-red:hover,
+.badge-cream:hover {
+  animation: shimmer 1.5s ease infinite;
+  background-size: 200% 100%;
+}
+
 /* ================================
-   DOTS
+   DOTS & DIVIDER
 ================================ */
 .dot-cream {
   width: 10px;
@@ -442,30 +441,30 @@ p, span, a, li, label, input, textarea, button {
   display: inline-block;
 }
 
-/* ================================
-   DIVIDER
-================================ */
 .divider {
   width: 100%;
   height: 1px;
   background: var(--border);
 }
+
 /* ================================
    PERFORMANCE
 ================================ */
-img {
-  content-visibility: auto;
+main {
+  transform: translateZ(0);
 }
 
 section {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 600px;
+  transform: translateZ(0);
+}
+
+
+* {
+  -webkit-tap-highlight-color: transparent;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
@@ -473,131 +472,86 @@ section {
   }
 }
 
-body {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-}
-
-canvas {
-  image-rendering: optimizeSpeed;
-}
-
-/* Smooth transitions globally */
-* {
-  -webkit-tap-highlight-color: transparent;
-}
 /* ================================
    ANIMATIONS
 ================================ */
 @keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes fadeInDown {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes fadeInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  from { opacity: 0; transform: translateX(-20px); }
+  to   { opacity: 1; transform: translateX(0); }
 }
 
 @keyframes fadeInRight {
-  from {
-    opacity: 0;
-    transform: translateX(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0); }
 }
 
 @keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+  from { opacity: 0; transform: scale(0.9); }
+  to   { opacity: 1; transform: scale(1); }
 }
 
 @keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.5; }
 }
 
 @keyframes bounce {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-8px);
-  }
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
 }
 
 @keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
 }
 
-/* Hover glow effect for cards */
-.card:hover,
-.card-cream:hover,
-.card-red:hover,
-.card-navy:hover {
-  transition: all 0.35s ease;
-}
-
-/* Smooth link hover */
 a {
   transition: color 0.2s ease, opacity 0.2s ease;
 }
-
-/* Button press effect */
-.btn-primary:active,
-.btn-accent:active,
-.btn-outline:active,
-.btn-ghost:active {
-  transform: scale(0.97) !important;
-  transition: transform 0.1s ease;
+/* ================================
+   PREVENT ZOOM / PINCH
+================================ */
+html {
+  touch-action: manipulation;
+  -ms-touch-action: manipulation;
 }
 
-/* Badge shimmer on hover */
-.badge:hover,
-.badge-red:hover,
-.badge-cream:hover {
-  animation: shimmer 1.5s ease infinite;
-  background-size: 200% 100%;
+body {
+  touch-action: manipulation;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  overscroll-behavior: none;
+}
+
+
+section#game canvas {
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+}
+/* ================================
+   FIX: OVERFLOW
+================================ */
+.card,
+.card-cream,
+.card-red,
+.card-navy {
+  overflow: hidden;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
